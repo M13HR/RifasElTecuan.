@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BETARIFAS - Oficial</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #0f0f0f; color: white; margin: 0; padding: 10px; display: flex; justify-content: center; }
+        .app { width: 100%; max-width: 450px; background: #1a1a1a; padding: 20px; border-radius: 25px; border: 1px solid #333; text-align: center; box-sizing: border-box; min-height: 500px; }
+        .logo { width: 85px; height: 85px; border-radius: 50%; border: 3px solid #25d366; background: white; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .logo img { max-width: 90%; }
+        h2 { color: #25d366; margin: 0 0 20px; font-size: 22px; }
+        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; height: 250px; overflow-y: auto; background: #111; padding: 10px; border-radius: 15px; border: 1px solid #333; margin: 15px 0; }
+        .num { padding: 12px 0; background: #333; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; color: #bbb; border: 1px solid transparent; }
+        .num.selected { background: #25d366; color: black; border-color: white; }
+        .num.occupied { background: #444; color: #666; cursor: not-allowed; opacity: 0.3; }
+        input { width: 100%; padding: 12px; margin: 5px 0; border-radius: 10px; border: 1px solid #444; background: #222; color: white; box-sizing: border-box; }
+        .btn { background: #25d366; color: black; border: none; padding: 18px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .p-card { display: flex; justify-content: space-between; padding: 12px; background: #222; border-radius: 12px; border: 1px solid #333; margin-bottom: 5px; }
+        .best { border: 2px solid #25d366; background: linear-gradient(145deg, #1a1a1a, #142e1f); }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <div class="logo"><img src="https://i.postimg.cc/tTrzGvdX/tecuan_png.png"></div>
+        <h2>BETARIFAS</h2>
+        
+        <input type="number" id="search" placeholder="🔍 Buscar número..." oninput="buscar()">
+        
+        <div id="grid" class="grid">Cargando números...</div>
+
+        <div class="p-card"><span>1 Boleto</span><b>$75</b></div>
+        <div class="p-card best"><span>5 Boletos (1 Gratis)</span><b>$300</b></div>
+
+        <input type="text" id="nombre" placeholder="Tu Nombre">
+        <input type="number" id="whatsapp" placeholder="Tu WhatsApp">
+        
+        <div id="sel" style="color:#25d366; font-weight:bold; margin:10px 0;">Seleccionados: 0</div>
+        
+        <button id="btn" class="btn" onclick="enviar()">APARTAR AHORA 🚀</button>
+    </div>
+
+    <script>
+        // --- PEGA TU URL DE GOOGLE ABAJO ---
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxmsZtaAjeW21kYzhZF-d6xKoXJG-2CKwT0Q8pCXAcEpPEy_cul44zBYozvsL8DR9Ru9A/exec"; 
+        // -----------------------------------
+
+        let seleccionados = [];
+
+        async function cargar() {
+            try {
+                const r = await fetch(SCRIPT_URL);
+                const ocupados = await r.json();
+                const grid = document.getElementById('grid');
+                grid.innerHTML = '';
+                for(let i=0; i<1000; i++) {
+                    let n = i.toString().padStart(3, '0');
+                    let div = document.createElement('div');
+                    div.innerText = n;
+                    div.id = "n-"+n;
+                    div.className = 'num' + (ocupados.includes(n) ? ' occupied' : '');
+                    if(!ocupados.includes(n)) div.onclick = () => togg(n, div);
+                    grid.appendChild(div);
+                }
+            } catch (e) {
+                document.getElementById('grid').innerText = "Error al conectar con Google. Revisa tu Link Exec.";
+            }
+        }
+
+        function togg(n, el) {
+            if(seleccionados.includes(n)) {
+                seleccionados = seleccionados.filter(x => x !== n);
+                el.classList.remove('selected');
+            } else {
+                seleccionados.push(n);
+                el.classList.add('selected');
+            }
+            document.getElementById('sel').innerText = "Seleccionados: " + seleccionados.length;
+        }
+
+        function buscar() {
+            let v = document.getElementById('search').value;
+            if(v.length < 1) return;
+            let n = v.padStart(3, '0').slice(-3);
+            document.getElementById("n-"+n)?.scrollIntoView({behavior:'smooth', block:'center'});
+        }
+
+        async function enviar() {
+            const n = document.getElementById('nombre').value;
+            const w = document.getElementById('whatsapp').value;
+            if(!n || !w || seleccionados.length === 0) return alert("Faltan datos");
+
+            const b = document.getElementById('btn');
+            b.disabled = true; b.innerText = "REGISTRANDO...";
+
+            try {
+                const res = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({nombre:n, whatsapp:w, boletos: seleccionados.join(', ')})
+                });
+                const data = await res.json();
+                alert("✅ ¡REGISTRO EXITOSO!");
+                window.top.location.href = data.url;
+            } catch (e) {
+                alert("Error al guardar. Revisa el script.");
+                b.disabled = false; b.innerText = "APARTAR AHORA 🚀";
+            }
+        }
+        cargar();
+    </script>
+</body>
+</html>
