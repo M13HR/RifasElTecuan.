@@ -7,110 +7,32 @@
     <style>
         :root { --primary: #25d366; --gold: #ffd700; --apartado: #f39c12; --pagado: #e74c3c; --bg: #0a0a0a; --card: #161616; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; display: flex; justify-content: center; }
-        .app { width: 100%; max-width: 480px; background: var(--card); padding: 20px; border-radius: 30px; border: 1px solid #333; text-align: center; box-sizing: border-box; }
+        
+        /* Ajuste de scroll para teclado móvil */
+        .app { 
+            width: 100%; 
+            max-width: 480px; 
+            background: var(--card); 
+            padding: 20px; 
+            padding-bottom: 250px; /* Espacio extra para que el teclado no tape */
+            border-radius: 30px; 
+            border: 1px solid #333; 
+            text-align: center; 
+            box-sizing: border-box; 
+        }
+
         .logo { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--primary); background: white; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .logo img { max-width: 90%; }
         h2 { color: var(--primary); margin: 5px 0; text-transform: uppercase; font-size: 20px; }
         .prize { border: 1px solid var(--gold); padding: 10px; border-radius: 15px; margin: 10px 0; background: rgba(255,214,0,0.05); }
+
+        /* Estados Leyenda */
         .leyenda { display: flex; justify-content: space-around; font-size: 11px; margin-bottom: 15px; background: #222; padding: 8px; border-radius: 10px; }
         .ley-item { display: flex; align-items: center; gap: 5px; }
         .dot { width: 12px; height: 12px; border-radius: 3px; }
+
+        /* Grid de Números */
         .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; height: 250px; overflow-y: auto; background: #000; padding: 10px; border-radius: 15px; margin-bottom: 15px; }
         .num { padding: 12px 0; background: #2a2a2a; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; color: #ddd; }
-        .num.selected { background: var(--primary) !important; color: black !important; }
+        .num.selected { background: var(--primary) !important; color: black !important; transform: scale(1.05); }
         .num.apartado { background: var(--apartado); color: white; cursor: not-allowed; opacity: 0.8; }
-        .num.pagado { background: var(--pagado); color: white; cursor: not-allowed; text-decoration: line-through; opacity: 0.6; }
-        .combos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-bottom: 15px; }
-        .combo-card { background: #222; padding: 8px; border-radius: 10px; font-size: 11px; border: 1px solid #333; }
-        .combo-card b { display: block; color: var(--primary); font-size: 14px; }
-        input { width: 100%; padding: 14px; margin-bottom: 10px; border-radius: 12px; border: 1px solid #444; background: #111; color: white; box-sizing: border-box; }
-        .btn-apartar { background: var(--primary); color: black; border: none; padding: 18px; width: 100%; border-radius: 15px; font-size: 18px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
-        .footer { font-size: 11px; color: #888; margin-top: 15px; line-height: 1.4; }
-    </style>
-</head>
-<body>
-    <div class="app">
-        <div class="logo"><img src="https://i.postimg.cc/tTrzGvdX/tecuan_png.png"></div>
-        <h2>Rifas El Tecuan</h2>
-        <div class="prize"><b style="color:var(--gold)">📱 IPHONE 17 PRO MAX</b><br><small>Sorteo 14 de Abril - Lotería Nacional</small></div>
-        <div class="leyenda">
-            <div class="ley-item"><div class="dot" style="background:#2a2a2a"></div>Libre</div>
-            <div class="ley-item"><div class="dot" style="background:var(--apartado)"></div>Apartado</div>
-            <div class="ley-item"><div class="dot" style="background:var(--pagado)"></div>Pagado</div>
-        </div>
-        <input type="number" id="search" placeholder="🔍 Buscar número...">
-        <div id="grid" class="grid">Cargando tablero...</div>
-        <div class="combos">
-            <div class="combo-card">1 Boleto<b>$75</b></div>
-            <div class="combo-card">3 Boletos<b>$200</b></div>
-            <div class="combo-card">5 Boletos<b>$300</b></div>
-        </div>
-        <input type="text" id="nombre" placeholder="Nombre completo">
-        <input type="number" id="whatsapp" placeholder="WhatsApp (10 dígitos)">
-        <span id="sel-txt" style="color:var(--primary); font-weight:bold; display:block; margin-bottom:10px;">Seleccionados: 0</span>
-        <button id="btn" class="btn-apartar" onclick="enviar()">APARTAR MI SUERTE 🍀</button>
-        <div class="footer">
-            🐯 <b>¡Mucha suerte Tecuan!</b><br>
-            Reporta tu pago en menos de 2 horas. Los apartados expiran a las 12 horas.
-        </div>
-    </div>
-    <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxb6rDJ3CyBYq92gBbHotp3jyow5k-LPK0FZZopI0-0vTVdj_a17kJf30ZQ1GD2AlZl_A/exec"; // REEMPLAZA ESTO
-        let seleccionados = [];
-
-        async function cargar() {
-            try {
-                const r = await fetch(SCRIPT_URL);
-                const data = await r.json();
-                const grid = document.getElementById('grid');
-                grid.innerHTML = '';
-                for(let i=0; i<1000; i++) {
-                    let n = i.toString().padStart(3, '0');
-                    let div = document.createElement('div');
-                    div.innerText = n; div.id = "n-"+n;
-                    if (data.pagados.includes(n)) div.className = 'num pagado';
-                    else if (data.apartados.includes(n)) div.className = 'num apartado';
-                    else { div.className = 'num'; div.onclick = () => togg(n, div); }
-                    grid.appendChild(div);
-                }
-            } catch (e) { grid.innerText = "Error de conexión."; }
-        }
-
-        function togg(n, el) {
-            if(seleccionados.includes(n)) { seleccionados = seleccionados.filter(x => x !== n); el.classList.remove('selected'); }
-            else { seleccionados.push(n); el.classList.add('selected'); }
-            document.getElementById('sel-txt').innerText = "Seleccionados: " + seleccionados.length;
-        }
-
-        document.getElementById('search').oninput = function() {
-            let n = this.value.padStart(3, '0').slice(-3);
-            document.getElementById("n-"+n)?.scrollIntoView({behavior:'smooth', block:'center'});
-        };
-
-        function calcularTotal(cant) {
-            let t = 0, c = cant;
-            while(c > 0) {
-                if(c >= 5) { t += 300; c -= 5; }
-                else if(c >= 3) { t += 200; c -= 3; }
-                else { t += (c * 75); c = 0; }
-            }
-            return t;
-        }
-
-        async function enviar() {
-            const n = document.getElementById('nombre').value;
-            const w = document.getElementById('whatsapp').value;
-            if(!n || !w || seleccionados.length === 0) return alert("Completa tus datos.");
-            const b = document.getElementById('btn');
-            b.innerText = "REGISTRANDO..."; b.disabled = true;
-            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({nombre:n, whatsapp:w, boletos: seleccionados.join(', ')}) });
-            const total = calcularTotal(seleccionados.length);
-            setTimeout(() => {
-                const msj = `📱 *RIFAS EL TECUAN - APARTADO*\n👤 *Cliente:* ${n}\n🔢 *Boletos:* ${seleccionados.join(', ')}\n💰 *Total:* $${total} MXN\n\n🍀 ¡Mucha suerte Tecuan!`;
-                window.top.location.href = `https://api.whatsapp.com/send?phone=529531024519&text=${encodeURIComponent(msj)}`;
-            }, 1000);
-        }
-        cargar();
-    </script>
-</body>
-</html>
