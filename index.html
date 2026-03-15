@@ -10,22 +10,15 @@
         .logo { width: 85px; height: 85px; border-radius: 50%; border: 3px solid #25d366; background: white; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .logo img { max-width: 90%; }
         h2 { color: #25d366; margin: 0 0 20px; font-size: 22px; text-transform: uppercase; }
-        
-        /* Buscador */
         input { width: 100%; padding: 12px; margin: 5px 0; border-radius: 10px; border: 1px solid #444; background: #222; color: white; box-sizing: border-box; font-size: 16px; }
-        
-        /* Grid de Números */
         .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; height: 280px; overflow-y: auto; background: #111; padding: 10px; border-radius: 15px; border: 1px solid #333; margin: 15px 0; }
         .num { padding: 12px 0; background: #333; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; color: #bbb; }
         .num.selected { background: #25d366 !important; color: black !important; transform: scale(1.05); }
         .num.occupied { background: #444; color: #666; cursor: not-allowed; opacity: 0.3; }
-
-        /* Tabla de Precios (Combos) */
         .combos { display: flex; flex-direction: column; gap: 6px; margin-bottom: 15px; }
         .combo-item { display: flex; justify-content: space-between; padding: 10px 15px; background: #222; border-radius: 10px; border: 1px solid #333; font-size: 14px; }
         .best { border: 2px solid #25d366; background: linear-gradient(145deg, #1a1a1a, #142e1f); }
         .precio { color: #25d366; font-weight: bold; }
-
         .btn { background: #25d366; color: black; border: none; padding: 18px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         #sel-count { color: #25d366; font-weight: bold; margin: 10px 0; display: block; }
     </style>
@@ -34,22 +27,16 @@
     <div class="app">
         <div class="logo"><img src="https://i.postimg.cc/tTrzGvdX/tecuan_png.png"></div>
         <h2>Rifas El Tecuan</h2>
-        
         <input type="number" id="search" placeholder="🔍 Buscar número..." oninput="buscar()">
-        
         <div id="grid" class="grid">Cargando números...</div>
-
         <div class="combos">
             <div class="combo-item"><span>1 Boleto</span><span class="precio">$75</span></div>
             <div class="combo-item"><span>3 Boletos</span><span class="precio">$200</span></div>
             <div class="combo-item best"><span>5 Boletos (🔥 Especial)</span><span class="precio">$300</span></div>
         </div>
-
         <input type="text" id="nombre" placeholder="Tu Nombre Completo">
         <input type="number" id="whatsapp" placeholder="WhatsApp (10 dígitos)">
-        
         <span id="sel-count">Seleccionados: 0</span>
-        
         <button id="btn" class="btn" onclick="enviar()">APARTAR BOLETOS 🚀</button>
     </div>
 
@@ -95,6 +82,26 @@
             document.getElementById("n-"+n)?.scrollIntoView({behavior:'smooth', block:'center'});
         }
 
+        function calcularTotal(cant) {
+            let total = 0;
+            let n = cant;
+            
+            // Lógica de combos exactos
+            while (n > 0) {
+                if (n >= 5) {
+                    total += 300;
+                    n -= 5;
+                } else if (n >= 3) {
+                    total += 200;
+                    n -= 3;
+                } else {
+                    total += (n * 75);
+                    n = 0;
+                }
+            }
+            return total;
+        }
+
         async function enviar() {
             const n = document.getElementById('nombre').value;
             const w = document.getElementById('whatsapp').value;
@@ -104,26 +111,19 @@
             b.innerText = "REGISTRANDO...";
             b.disabled = true;
 
-            // Enviar a Google
             fetch(SCRIPT_URL, { 
                 method: 'POST', 
                 mode: 'no-cors', 
                 body: JSON.stringify({nombre:n, whatsapp:w, boletos: seleccionados.join(', ')}) 
             });
             
-            // Calcular precio para el mensaje
-            let cant = seleccionados.length;
-            let total = 0;
-            if(cant == 1) total = 75;
-            else if(cant >= 2 && cant < 5) total = cant * 66; // Aproximado al combo de 3 por 200
-            else if(cant == 5) total = 300;
-            else total = cant * 60;
+            const totalPagar = calcularTotal(seleccionados.length);
 
             setTimeout(() => {
                 const msj = `🎫 *NUEVO APARTADO - RIFAS EL TECUAN*\n\n` +
                           `👤 *Cliente:* ${n}\n` +
                           `🔢 *Números:* ${seleccionados.join(', ')}\n` +
-                          `💰 *Total a pagar:* $${total} MXN\n\n` +
+                          `💰 *Total a pagar:* $${totalPagar} MXN\n\n` +
                           `🚀 _Hola, acabo de apartar mis números en el sitio web. Quedo atento para realizar el pago._`;
                 
                 window.top.location.href = `https://api.whatsapp.com/send?phone=529531024519&text=${encodeURIComponent(msj)}`;
