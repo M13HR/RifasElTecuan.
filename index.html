@@ -7,32 +7,44 @@
     <style>
         :root { --primary: #25d366; --gold: #ffd700; --apartado: #f39c12; --pagado: #e74c3c; --bg: #0a0a0a; --card: #161616; }
         body { font-family: 'Arial Black', sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; display: flex; justify-content: center; }
-        .app { width: 100%; max-width: 500px; background: var(--card); border-radius: 30px; border: 1px solid #333; overflow: hidden; text-align: center; padding-bottom: 350px; }
-        .hero { background: linear-gradient(180deg, #1b4d2b 0%, #0a0a0a 100%); padding: 30px 20px; border-bottom: 4px solid var(--primary); }
-        .hero h1 { color: var(--gold); font-size: 28px; margin: 0; }
+        .app { width: 100%; max-width: 500px; background: var(--card); border-radius: 30px; border: 1px solid #333; overflow: hidden; text-align: center; padding-bottom: 50px; }
+        
+        /* Ajuste para el Logo y Hero */
+        .hero { background: linear-gradient(180deg, #1b4d2b 0%, #0a0a0a 100%); padding: 20px; border-bottom: 4px solid var(--primary); }
+        .logo-img { width: 120px; margin-bottom: 10px; }
+        .hero h1 { color: var(--gold); font-size: 24px; margin: 0; }
         .price-badge { background: var(--gold); color: black; display: inline-block; padding: 5px 15px; border-radius: 50px; font-weight: bold; margin-top: 10px; }
+        
+        /* Imagen del iPhone Principal */
+        .promo-img { width: 90%; border-radius: 20px; margin: 15px auto; border: 1px solid #444; display: block; }
+
         .premios { padding: 15px; background: #222; margin: 15px; border-radius: 15px; border: 1px dashed var(--gold); text-align: left; }
-        .premio-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .premio-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; font-size: 13px; }
         .combos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px; }
         .combo-box { background: #222; padding: 10px; border-radius: 12px; border: 1px solid #444; font-size: 11px; }
         .combo-box b { display: block; color: var(--primary); font-size: 15px; }
+        
         .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; height: 260px; overflow-y: auto; background: #000; padding: 15px; border-radius: 15px; margin: 15px; }
         .num { padding: 12px 0; background: #2a2a2a; border-radius: 8px; cursor: pointer; font-weight: bold; }
         .num.selected { background: var(--primary) !important; color: black !important; }
         .num.apartado { background: var(--apartado); color: white; cursor: not-allowed; }
         .num.pagado { background: var(--pagado); color: white; cursor: not-allowed; opacity: 0.5; }
+        
         .input-group { padding: 0 15px; text-align: left; }
         input, select { width: 100%; padding: 16px; margin-bottom: 12px; border-radius: 12px; border: 1px solid #444; background: #111; color: white; box-sizing: border-box; font-size: 16px; font-family: sans-serif; }
-        .btn-apartar { background: var(--primary); color: black; border: none; padding: 20px; width: 90%; border-radius: 15px; font-size: 18px; font-weight: bold; cursor: pointer; }
+        .btn-apartar { background: var(--primary); color: black; border: none; padding: 20px; width: 90%; border-radius: 15px; font-size: 18px; font-weight: bold; cursor: pointer; margin: 20px 0; }
         .footer-info { font-family: sans-serif; font-size: 12px; color: #aaa; padding: 20px; text-align: left; line-height: 1.6; }
     </style>
 </head>
 <body>
     <div class="app">
         <div class="hero">
+            <img src="Logo Rifas el tecuan.png" class="logo-img" alt="Logo El Tecuan">
             <h1>IPHONE 17 PRO MAX</h1>
             <div class="price-badge">BOLETO $75 MXN</div>
         </div>
+
+        <img src="Para rifas 17 Pro Max.jpeg" class="promo-img" alt="Sorteo iPhone">
 
         <div class="premios">
             <div class="premio-item"><span>🥇 <b>MAYOR</b></span><b style="color:var(--primary)">IPHONE 17 PRO MAX</b></div>
@@ -56,7 +68,8 @@
             
             <input list="estadosLista" id="estadoRep" placeholder="Selecciona tu Estado">
             <datalist id="estadosLista">
-                <option value="Aguascalientes"><option value="Baja California"><option value="Baja California Sur"><option value="Campeche"><option value="Chiapas"><option value="Chihuahua"><option value="Ciudad de México"><option value="Coahuila"><option value="Colima"><option value="Durango"><option value="Estado de México"><option value="Guanajuato"><option value="Guerrero"><option value="Hidalgo"><option value="Jalisco"><option value="Michoacán"><option value="Morelos"><option value="Nayarit"><option value="Nuevo León"><option value="Oaxaca"><option value="Puebla"><option value="Querétaro"><option value="Quintana Roo"><option value="San Luis Potosí"><option value="Sinaloa"><option value="Sonora"><option value="Tabasco"><option value="Tamaulipas"><option value="Tlaxcala"><option value="Veracruz"><option value="Yucatán"><option value="Zacatecas">
+                <option value="Puebla"><option value="Oaxaca"><option value="Ciudad de México"><option value="Veracruz"><option value="Guerrero">
+                <option value="Chiapas"><option value="Estado de México"><option value="Morelos">
             </datalist>
 
             <input type="text" id="municipio" placeholder="¿De qué municipio nos visitas?">
@@ -114,7 +127,7 @@
             const est = document.getElementById('estadoRep').value;
             const mun = document.getElementById('municipio').value;
 
-            if(!n || !w || !est || !mun || seleccionados.length === 0) return alert("Por favor, llena todos los campos.");
+            if(!n || !w || !est || !mun || seleccionados.length === 0) return alert("Por favor, selecciona tus números y llena todos los campos.");
             
             const b = document.getElementById('btn');
             b.innerText = "PROCESANDO..."; b.disabled = true;
@@ -137,8 +150,7 @@
                             `--- \n` +
                             `⚠️ *IMPORTANTE:*\n` +
                             `* Tengo *6 HORAS* para enviar mi comprobante de pago.\n` +
-                            `* Pasado este tiempo, el sistema liberará mis números automáticamente.\n` +
-                            `* Participo por el *iPhone 17 Pro Max* y el *Pre-evento de $5,000*.\n\n` +
+                            `* Pasado este tiempo, el sistema liberará mis números automáticamente.\n\n` +
                             `*¿A qué cuenta puedo realizar mi depósito o transferencia?* 🍀`;
 
                 window.top.location.href = `https://api.whatsapp.com/send?phone=529531024519&text=${encodeURIComponent(msj)}`;
@@ -148,6 +160,11 @@
         document.getElementById('search').oninput = function() {
             let val = this.value.padStart(3, '0').slice(-3);
             document.getElementById("n-"+val)?.scrollIntoView({behavior:'smooth', block:'center'});
+            const target = document.getElementById("n-"+val);
+            if(target) {
+                target.style.border = "2px solid white";
+                setTimeout(() => target.style.border = "none", 2000);
+            }
         };
         cargar();
     </script>
