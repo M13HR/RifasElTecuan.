@@ -2,154 +2,108 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rifas El Tecuan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rifas El Tecuan | Sorteo iPhone 17 Pro Max</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --primary: #25d366; --gold: #ffd700; --apartado: #f39c12; --pagado: #e74c3c; --bg: #0a0a0a; --card: #161616; }
-        body { font-family: 'Arial Black', sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; display: flex; justify-content: center; }
-        .app { width: 100%; max-width: 500px; background: var(--card); border-radius: 30px; border: 1px solid #333; overflow: hidden; text-align: center; padding-bottom: 350px; }
-        .hero { background: linear-gradient(180deg, #1b4d2b 0%, #0a0a0a 100%); padding: 30px 20px; border-bottom: 4px solid var(--primary); }
-        .hero h1 { color: var(--gold); font-size: 28px; margin: 0; }
-        .price-badge { background: var(--gold); color: black; display: inline-block; padding: 5px 15px; border-radius: 50px; font-weight: bold; margin-top: 10px; }
-        .premios { padding: 15px; background: #222; margin: 15px; border-radius: 15px; border: 1px dashed var(--gold); text-align: left; }
-        .premio-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
-        .combos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px; }
-        .combo-box { background: #222; padding: 10px; border-radius: 12px; border: 1px solid #444; font-size: 11px; }
-        .combo-box b { display: block; color: var(--primary); font-size: 15px; }
-        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; height: 260px; overflow-y: auto; background: #000; padding: 15px; border-radius: 15px; margin: 15px; }
-        .num { padding: 12px 0; background: #2a2a2a; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .num.selected { background: var(--primary) !important; color: black !important; }
-        .num.apartado { background: var(--apartado); color: white; cursor: not-allowed; }
-        .num.pagado { background: var(--pagado); color: white; cursor: not-allowed; opacity: 0.5; }
-        .input-group { padding: 0 15px; text-align: left; }
-        input, select { width: 100%; padding: 16px; margin-bottom: 12px; border-radius: 12px; border: 1px solid #444; background: #111; color: white; box-sizing: border-box; font-size: 16px; font-family: sans-serif; }
-        .btn-apartar { background: var(--primary); color: black; border: none; padding: 20px; width: 90%; border-radius: 15px; font-size: 18px; font-weight: bold; cursor: pointer; }
-        .footer-info { font-family: sans-serif; font-size: 12px; color: #aaa; padding: 20px; text-align: left; line-height: 1.6; }
+        :root {
+            --verde-tecuan: #00C853;
+            --oro: #FFD700;
+            --negro-fondo: #121212;
+            --blanco: #F5F5F5;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--negro-fondo);
+            color: var(--blanco);
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        /* Ajuste de Imágenes con tus nombres de archivo */
+        .logo-principal {
+            width: 100%;
+            max-width: 250px;
+            margin-bottom: 20px;
+        }
+
+        .iphone-foto {
+            width: 100%;
+            max-width: 350px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 2px solid var(--verde-tecuan);
+            box-shadow: 0 0 20px rgba(0, 200, 83, 0.3);
+        }
+
+        h1 { color: var(--oro); font-size: 1.8em; margin-bottom: 5px; }
+        .precio { background: var(--oro); color: black; display: inline-block; padding: 5px 15px; border-radius: 50px; font-weight: bold; margin-bottom: 20px; }
+
+        .premios {
+            text-align: left;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--verde-tecuan);
+            margin-bottom: 20px;
+        }
+
+        .premio-row { margin: 10px 0; display: flex; justify-content: space-between; }
+        .verde { color: var(--verde-tecuan); font-weight: bold; }
+
+        .boton-apartar {
+            display: block;
+            background: var(--verde-tecuan);
+            color: white;
+            text-decoration: none;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 200, 83, 0.4);
+            margin-top: 25px;
+        }
+
+        .footer-info { font-size: 0.8em; margin-top: 20px; opacity: 0.7; }
     </style>
 </head>
 <body>
-    <div class="app">
-        <div class="hero">
-            <h1>IPHONE 17 PRO MAX</h1>
-            <div class="price-badge">BOLETO $75 MXN</div>
-        </div>
+
+    <div class="container">
+        <img src="Logo Rifas el tecuan.png" alt="Rifas El Tecuan" class="logo-principal">
+
+        <h1>IPHONE 17 PRO MAX</h1>
+        <div class="precio">BOLETO $75 MXN</div>
+
+        <img src="Para rifas 17 Pro Max.jpeg" alt="iPhone 17 Pro Max" class="iphone-foto">
 
         <div class="premios">
-            <div class="premio-item"><span>🥇 <b>MAYOR</b></span><b style="color:var(--primary)">IPHONE 17 PRO MAX</b></div>
-            <div class="premio-item"><span>⚡ <b>PRE-EVENTO (50%)</b></span><b style="color:var(--gold)">$5,000 MXN</b></div>
-            <div class="premio-item"><span>🎁 <b>PRONTO PAGO</b></span><b style="color:var(--primary)">$2,000 MXN</b></div>
+            <div class="premio-row"><span>🥇 MAYOR</span> <span class="verde">IPHONE 17 PRO MAX</span></div>
+            <div class="premio-row"><span>⚡ PRE-EVENTO (50%)</span> <span style="color:var(--oro)">$5,000 MXN</span></div>
+            <div class="premio-row"><span>🎁 PRONTO PAGO</span> <span class="verde">$2,000 MXN</span></div>
         </div>
 
-        <div class="combos">
-            <div class="combo-box">1 Boleto<b>$75</b></div>
-            <div class="combo-box" style="border-color:var(--gold)">3 Boletos<b>$200</b></div>
-            <div class="combo-box">5 Boletos<b>$300</b></div>
-        </div>
-
-        <input type="number" id="search" placeholder="🔍 BUSCAR NÚMERO..." style="width:90%; margin:10px auto;">
-
-        <div id="grid" class="grid">Cargando boletos...</div>
-
-        <div class="input-group">
-            <input type="text" id="nombre" placeholder="Nombre completo">
-            <input type="number" id="whatsapp" placeholder="WhatsApp (10 dígitos)">
-            
-            <input list="estadosLista" id="estadoRep" placeholder="Selecciona tu Estado">
-            <datalist id="estadosLista">
-                <option value="Aguascalientes"><option value="Baja California"><option value="Baja California Sur"><option value="Campeche"><option value="Chiapas"><option value="Chihuahua"><option value="Ciudad de México"><option value="Coahuila"><option value="Colima"><option value="Durango"><option value="Estado de México"><option value="Guanajuato"><option value="Guerrero"><option value="Hidalgo"><option value="Jalisco"><option value="Michoacán"><option value="Morelos"><option value="Nayarit"><option value="Nuevo León"><option value="Oaxaca"><option value="Puebla"><option value="Querétaro"><option value="Quintana Roo"><option value="San Luis Potosí"><option value="Sinaloa"><option value="Sonora"><option value="Tabasco"><option value="Tamaulipas"><option value="Tlaxcala"><option value="Veracruz"><option value="Yucatán"><option value="Zacatecas">
-            </datalist>
-
-            <input type="text" id="municipio" placeholder="¿De qué municipio nos visitas?">
-        </div>
-
-        <button id="btn" class="btn-apartar" onclick="enviar()">¡APARTAR MI SUERTE! 🍀</button>
+        <a href="https://wa.me/522751035579?text=Hola%20Miguel,%20quiero%20apartar%20mi%20boleto%20para%20el%20iPhone" class="boton-apartar">
+            ¡APARTAR MI SUERTE! 🍀
+        </a>
 
         <div class="footer-info">
-            📍 <b>UBICACIÓN:</b> Acatlán de Osorio, Puebla.<br>
-            📅 <b>SORTEO:</b> 14 de Abril (Sujeto al 80% venta).<br>
-            ⏳ <b>PAGO:</b> Tienes <b>6 horas</b> para reportar.
+            <p>📍 UBICACIÓN: Acatlán de Osorio, Puebla.</p>
+            <p>🗓️ SORTEO: 14 de Abril (Lotería Nacional).</p>
+            <p>⏳ PAGO: Tienes 6 horas para reportar.</p>
         </div>
     </div>
 
-    <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxGSL3jKx4tsTG08fKk7S8nqy89eImXulnSvfYMR06fs_OOrVvjDlvqOv3_fixxVOSSfg/exec"; 
-        let seleccionados = [];
-
-        async function cargar() {
-            try {
-                const r = await fetch(SCRIPT_URL);
-                const data = await r.json();
-                const grid = document.getElementById('grid');
-                grid.innerHTML = '';
-                for(let i=0; i<1000; i++) {
-                    let n = i.toString().padStart(3, '0');
-                    let div = document.createElement('div');
-                    div.innerText = n; div.id = "n-"+n;
-                    if (data.pagados.includes(n)) div.className = 'num pagado';
-                    else if (data.apartados.includes(n)) div.className = 'num apartado';
-                    else { div.className = 'num'; div.onclick = () => togg(n, div); }
-                    grid.appendChild(div);
-                }
-            } catch (e) { document.getElementById('grid').innerText = "Error de conexión."; }
-        }
-
-        function togg(n, el) {
-            if(seleccionados.includes(n)) { seleccionados = seleccionados.filter(x => x !== n); el.classList.remove('selected'); }
-            else { seleccionados.push(n); el.classList.add('selected'); }
-        }
-
-        function calcularTotal(cant) {
-            let t = 0, c = cant;
-            while(c > 0) {
-                if(c >= 5) { t += 300; c -= 5; }
-                else if(c >= 3) { t += 200; c -= 3; }
-                else { t += (c * 75); c = 0; }
-            }
-            return t;
-        }
-
-        async function enviar() {
-            const n = document.getElementById('nombre').value;
-            const w = document.getElementById('whatsapp').value;
-            const est = document.getElementById('estadoRep').value;
-            const mun = document.getElementById('municipio').value;
-
-            if(!n || !w || !est || !mun || seleccionados.length === 0) return alert("Por favor, llena todos los campos.");
-            
-            const b = document.getElementById('btn');
-            b.innerText = "PROCESANDO..."; b.disabled = true;
-
-            fetch(SCRIPT_URL, { 
-                method: 'POST', 
-                mode: 'no-cors', 
-                body: JSON.stringify({ nombre:n, whatsapp:w, boletos: seleccionados.join(', '), estadoRep: est, municipio: mun }) 
-            });
-            
-            const total = calcularTotal(seleccionados.length);
-
-            setTimeout(() => {
-                const msj = `📱 *RIFAS EL TECUAN - APARTADO OFICIAL* 🐯\n\n` +
-                            `¡Hola! He seleccionado mis números de la suerte:\n\n` +
-                            `👤 *NOMBRE:* ${n}\n` +
-                            `📍 *ORIGEN:* ${mun}, ${est}\n` +
-                            `🔢 *BOLETOS:* ${seleccionados.join(', ')}\n` +
-                            `💰 *TOTAL A PAGAR:* $${total} MXN\n\n` +
-                            `--- \n` +
-                            `⚠️ *IMPORTANTE:*\n` +
-                            `* Tengo *6 HORAS* para enviar mi comprobante de pago.\n` +
-                            `* Pasado este tiempo, el sistema liberará mis números automáticamente.\n` +
-                            `* Participo por el *iPhone 17 Pro Max* y el *Pre-evento de $5,000*.\n\n` +
-                            `*¿A qué cuenta puedo realizar mi depósito o transferencia?* 🍀`;
-
-                window.top.location.href = `https://api.whatsapp.com/send?phone=529531024519&text=${encodeURIComponent(msj)}`;
-            }, 1000);
-        }
-
-        document.getElementById('search').oninput = function() {
-            let val = this.value.padStart(3, '0').slice(-3);
-            document.getElementById("n-"+val)?.scrollIntoView({behavior:'smooth', block:'center'});
-        };
-        cargar();
-    </script>
 </body>
 </html>
