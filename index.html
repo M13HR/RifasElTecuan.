@@ -2,139 +2,154 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Rifas El Tecuan</title>
     <style>
-        body {
-            background-color: #121212;
-            color: white;
-            font-family: sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 10px;
-            margin: 0;
-        }
-
-        .header-card {
-            background: linear-gradient(180deg, #1b3d1f 0%, #121212 100%);
-            width: 100%;
-            max-width: 400px;
-            border-radius: 30px;
-            padding: 20px;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        h1 { color: #ffeb3b; margin: 10px 0; font-size: 24px; }
-        .price-tag { background: #ffeb3b; color: black; padding: 5px 20px; border-radius: 20px; font-weight: bold; display: inline-block; }
-
-        .info-box {
-            border: 1px dashed #ffeb3b;
-            border-radius: 15px;
-            padding: 15px;
-            margin: 20px 0;
-            text-align: left;
-            width: 90%;
-        }
-
-        .promo-buttons {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .promo-btn {
-            background: #222;
-            border: 1px solid #444;
-            padding: 10px;
-            border-radius: 10px;
-            flex: 1;
-            font-size: 12px;
-        }
-
-        .search-bar {
-            width: 90%;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            padding: 15px;
-            border-radius: 15px;
-            color: white;
-            margin-bottom: 20px;
-        }
-
-        .grid-container {
-            background: #000;
-            padding: 15px;
-            border-radius: 20px;
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
-            max-height: 300px;
-            overflow-y: auto;
-            width: 90%;
-        }
-
-        .num {
-            background: #2a2a2a;
-            padding: 10px 5px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .num.selected { background: #00c853; }
-
-        input[type="text"], input[type="tel"], select {
-            width: 90%;
-            padding: 15px;
-            margin: 5px 0;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 12px;
-            color: white;
-        }
-
-        .btn-main {
-            background: #00c853;
-            color: white;
-            width: 90%;
-            padding: 18px;
-            border-radius: 15px;
-            border: none;
-            font-weight: bold;
-            font-size: 18px;
-            margin: 20px 0;
-        }
-
-        .footer { font-size: 12px; text-align: left; width: 90%; opacity: 0.8; line-height: 1.6; }
+        :root { --primary: #25d366; --gold: #ffd700; --apartado: #f39c12; --pagado: #e74c3c; --bg: #0a0a0a; --card: #161616; }
+        body { font-family: 'Arial Black', sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; display: flex; justify-content: center; }
+        .app { width: 100%; max-width: 500px; background: var(--card); border-radius: 30px; border: 1px solid #333; overflow: hidden; text-align: center; padding-bottom: 350px; }
+        .hero { background: linear-gradient(180deg, #1b4d2b 0%, #0a0a0a 100%); padding: 30px 20px; border-bottom: 4px solid var(--primary); }
+        .hero h1 { color: var(--gold); font-size: 28px; margin: 0; }
+        .price-badge { background: var(--gold); color: black; display: inline-block; padding: 5px 15px; border-radius: 50px; font-weight: bold; margin-top: 10px; }
+        .premios { padding: 15px; background: #222; margin: 15px; border-radius: 15px; border: 1px dashed var(--gold); text-align: left; }
+        .premio-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .combos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px; }
+        .combo-box { background: #222; padding: 10px; border-radius: 12px; border: 1px solid #444; font-size: 11px; }
+        .combo-box b { display: block; color: var(--primary); font-size: 15px; }
+        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; height: 260px; overflow-y: auto; background: #000; padding: 15px; border-radius: 15px; margin: 15px; }
+        .num { padding: 12px 0; background: #2a2a2a; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .num.selected { background: var(--primary) !important; color: black !important; }
+        .num.apartado { background: var(--apartado); color: white; cursor: not-allowed; }
+        .num.pagado { background: var(--pagado); color: white; cursor: not-allowed; opacity: 0.5; }
+        .input-group { padding: 0 15px; text-align: left; }
+        input, select { width: 100%; padding: 16px; margin-bottom: 12px; border-radius: 12px; border: 1px solid #444; background: #111; color: white; box-sizing: border-box; font-size: 16px; font-family: sans-serif; }
+        .btn-apartar { background: var(--primary); color: black; border: none; padding: 20px; width: 90%; border-radius: 15px; font-size: 18px; font-weight: bold; cursor: pointer; }
+        .footer-info { font-family: sans-serif; font-size: 12px; color: #aaa; padding: 20px; text-align: left; line-height: 1.6; }
     </style>
 </head>
 <body>
+    <div class="app">
+        <div class="hero">
+            <h1>IPHONE 17 PRO MAX</h1>
+            <div class="price-badge">BOLETO $75 MXN</div>
+        </div>
 
-    <div class="header-card">
-        <img src="Logo Rifas el tecuan.png" style="width: 80px;" alt="Logo">
-        <h1>IPHONE 17 PRO MAX</h1>
-        <div class="price-tag">BOLETO $75 MXN</div>
-        
-        <div class="info-box">
-            <div>🥇 <b>MAYOR</b> <span style="float:right; color:#00c853">IPHONE 17 PRO MAX</span></div>
-            <div style="margin: 8px 0;">⚡ <b>PRE-EVENTO (50%)</b> <span style="float:right; color:#ffeb3b">$5,000 MXN</span></div>
-            <div>🎁 <b>PRONTO PAGO</b> <span style="float:right; color:#00c853">$2,000 MXN</span></div>
+        <div class="premios">
+            <div class="premio-item"><span>🥇 <b>MAYOR</b></span><b style="color:var(--primary)">IPHONE 17 PRO MAX</b></div>
+            <div class="premio-item"><span>⚡ <b>PRE-EVENTO (50%)</b></span><b style="color:var(--gold)">$5,000 MXN</b></div>
+            <div class="premio-item"><span>🎁 <b>PRONTO PAGO</b></span><b style="color:var(--primary)">$2,000 MXN</b></div>
+        </div>
+
+        <div class="combos">
+            <div class="combo-box">1 Boleto<b>$75</b></div>
+            <div class="combo-box" style="border-color:var(--gold)">3 Boletos<b>$200</b></div>
+            <div class="combo-box">5 Boletos<b>$300</b></div>
+        </div>
+
+        <input type="number" id="search" placeholder="🔍 BUSCAR NÚMERO..." style="width:90%; margin:10px auto;">
+
+        <div id="grid" class="grid">Cargando boletos...</div>
+
+        <div class="input-group">
+            <input type="text" id="nombre" placeholder="Nombre completo">
+            <input type="number" id="whatsapp" placeholder="WhatsApp (10 dígitos)">
+            
+            <input list="estadosLista" id="estadoRep" placeholder="Selecciona tu Estado">
+            <datalist id="estadosLista">
+                <option value="Aguascalientes"><option value="Baja California"><option value="Baja California Sur"><option value="Campeche"><option value="Chiapas"><option value="Chihuahua"><option value="Ciudad de México"><option value="Coahuila"><option value="Colima"><option value="Durango"><option value="Estado de México"><option value="Guanajuato"><option value="Guerrero"><option value="Hidalgo"><option value="Jalisco"><option value="Michoacán"><option value="Morelos"><option value="Nayarit"><option value="Nuevo León"><option value="Oaxaca"><option value="Puebla"><option value="Querétaro"><option value="Quintana Roo"><option value="San Luis Potosí"><option value="Sinaloa"><option value="Sonora"><option value="Tabasco"><option value="Tamaulipas"><option value="Tlaxcala"><option value="Veracruz"><option value="Yucatán"><option value="Zacatecas">
+            </datalist>
+
+            <input type="text" id="municipio" placeholder="¿De qué municipio nos visitas?">
+        </div>
+
+        <button id="btn" class="btn-apartar" onclick="enviar()">¡APARTAR MI SUERTE! 🍀</button>
+
+        <div class="footer-info">
+            📍 <b>UBICACIÓN:</b> Acatlán de Osorio, Puebla.<br>
+            📅 <b>SORTEO:</b> 14 de Abril (Sujeto al 80% venta).<br>
+            ⏳ <b>PAGO:</b> Tienes <b>6 horas</b> para reportar.
         </div>
     </div>
 
-    <img src="Para rifas 17 Pro Max.jpeg" style="width: 90%; border-radius: 15px; margin-top: 15px;">
+    <script>
+        const SCRIPT_URL = "TU_URL_AQUI"; 
+        let seleccionados = [];
 
-    <div class="promo-buttons">
-        <div class="promo-btn">1 Boleto<br><span style="color:#00c853">$75</span></div>
-        <div class="promo-btn" style="border-color:#ffeb3b">3 Boletos<br><span style="color:#00c853">$200</span></div>
-        <div class="promo-btn">5 Boletos<br><span style="color:#00c853">$300</span></div>
-    </div>
+        async function cargar() {
+            try {
+                const r = await fetch(SCRIPT_URL);
+                const data = await r.json();
+                const grid = document.getElementById('grid');
+                grid.innerHTML = '';
+                for(let i=0; i<1000; i++) {
+                    let n = i.toString().padStart(3, '0');
+                    let div = document.createElement('div');
+                    div.innerText = n; div.id = "n-"+n;
+                    if (data.pagados.includes(n)) div.className = 'num pagado';
+                    else if (data.apartados.includes(n)) div.className = 'num apartado';
+                    else { div.className = 'num'; div.onclick = () => togg(n, div); }
+                    grid.appendChild(div);
+                }
+            } catch (e) { document.getElementById('grid').innerText = "Error de conexión."; }
+        }
 
-    <input type="text" class="search-bar" placeholder="🔍 BUSCAR NÚMERO..." id="search">
+        function togg(n, el) {
+            if(seleccionados.includes(n)) { seleccionados = seleccionados.filter(x => x !== n); el.classList.remove('selected'); }
+            else { seleccionados.push(n); el.classList.add('selected'); }
+        }
 
-    <div class="grid-container" id="grid"></div>
+        function calcularTotal(cant) {
+            let t = 0, c = cant;
+            while(c > 0) {
+                if(c >= 5) { t += 300; c -= 5; }
+                else if(c >= 3) { t += 200; c -= 3; }
+                else { t += (c * 75); c = 0; }
+            }
+            return t;
+        }
 
-    <input type="text"
+        async function enviar() {
+            const n = document.getElementById('nombre').value;
+            const w = document.getElementById('whatsapp').value;
+            const est = document.getElementById('estadoRep').value;
+            const mun = document.getElementById('municipio').value;
+
+            if(!n || !w || !est || !mun || seleccionados.length === 0) return alert("Por favor, llena todos los campos.");
+            
+            const b = document.getElementById('btn');
+            b.innerText = "PROCESANDO..."; b.disabled = true;
+
+            fetch(SCRIPT_URL, { 
+                method: 'POST', 
+                mode: 'no-cors', 
+                body: JSON.stringify({ nombre:n, whatsapp:w, boletos: seleccionados.join(', '), estadoRep: est, municipio: mun }) 
+            });
+            
+            const total = calcularTotal(seleccionados.length);
+
+            setTimeout(() => {
+                const msj = `📱 *RIFAS EL TECUAN - APARTADO OFICIAL* 🐯\n\n` +
+                            `¡Hola! He seleccionado mis números de la suerte:\n\n` +
+                            `👤 *NOMBRE:* ${n}\n` +
+                            `📍 *ORIGEN:* ${mun}, ${est}\n` +
+                            `🔢 *BOLETOS:* ${seleccionados.join(', ')}\n` +
+                            `💰 *TOTAL A PAGAR:* $${total} MXN\n\n` +
+                            `--- \n` +
+                            `⚠️ *IMPORTANTE:*\n` +
+                            `* Tengo *6 HORAS* para enviar mi comprobante de pago.\n` +
+                            `* Pasado este tiempo, el sistema liberará mis números automáticamente.\n` +
+                            `* Participo por el *iPhone 17 Pro Max* y el *Pre-evento de $5,000*.\n\n` +
+                            `*¿A qué cuenta puedo realizar mi depósito o transferencia?* 🍀`;
+
+                window.top.location.href = `https://api.whatsapp.com/send?phone=529531024519&text=${encodeURIComponent(msj)}`;
+            }, 1000);
+        }
+
+        document.getElementById('search').oninput = function() {
+            let val = this.value.padStart(3, '0').slice(-3);
+            document.getElementById("n-"+val)?.scrollIntoView({behavior:'smooth', block:'center'});
+        };
+        cargar();
+    </script>
+</body>
+</html>
