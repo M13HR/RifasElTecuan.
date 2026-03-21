@@ -37,6 +37,11 @@
 
         input, select { width: 100%; padding: 16px; margin-bottom: 12px; border-radius: 12px; border: 1px solid #444; background: #111; color: white; box-sizing: border-box; font-size: 16px; }
         .btn-apartar { background: var(--primary); color: black; border: none; padding: 20px; width: 100%; border-radius: 15px; font-size: 18px; font-weight: bold; cursor: pointer; margin: 10px 0; }
+        
+        /* SECCIÓN DE TRANSPARENCIA */
+        .metodo-ganador { background: #111; margin: 15px; padding: 15px; border-radius: 15px; border-left: 4px solid var(--gold); text-align: left; font-family: sans-serif; font-size: 13px; }
+        .metodo-ganador h4 { margin: 0 0 5px 0; color: var(--gold); font-size: 14px; }
+
         .footer-info { font-family: sans-serif; font-size: 12px; color: #aaa; padding: 20px; text-align: left; line-height: 1.6; }
     </style>
 </head>
@@ -81,6 +86,11 @@
             <button id="btn" class="btn-apartar" onclick="enviar()">¡APARTAR MI SUERTE! 🍀</button>
         </div>
 
+        <div class="metodo-ganador">
+            <h4>🍀 DINÁMICA DEL GANADOR</h4>
+            El ganador se define con las <b>últimas 3 cifras</b> del Premio Mayor de la <b>Lotería Nacional</b> (Sorteo correspondiente al 14 de Abril). ¡Transparencia total!
+        </div>
+
         <div class="footer-info">
             📍 <b>UBICACIÓN:</b> Acatlán de Osorio, Puebla.<br>
             📅 <b>SORTEO:</b> 14 de Abril | ⏳ <b>PAGO:</b> 6 horas límite.
@@ -121,7 +131,6 @@
         }
 
         function maquinaSuerte(cantidad) {
-            // Sonido Casino
             const context = new AudioContext();
             const osc = context.createOscillator();
             const gain = context.createGain();
@@ -170,7 +179,7 @@
 
             fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ nombre:n, whatsapp:w, boletos: seleccionados.join(', '), estadoRep: est, municipio: mun }) });
             
-            let total = seleccionados.length * 75; // Cálculo simple para el mensaje
+            let total = seleccionados.length * 75;
             if(seleccionados.length === 3) total = 200;
             if(seleccionados.length === 5) total = 300;
 
