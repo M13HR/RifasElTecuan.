@@ -7,10 +7,9 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root { --primary: #25d366; --gold: #ffd700; --apartado: #f39c12; --pagado: #e74c3c; --bg: #0a0a0a; --card: #161616; }
-        body { font-family: 'Arial Black', sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; display: flex; justify-content: center; padding-bottom: 90px; }
+        body { font-family: 'Arial Black', sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; display: flex; justify-content: center; padding-bottom: 100px; }
         .app { width: 100%; max-width: 500px; background: var(--card); border-radius: 30px; border: 1px solid #333; overflow: hidden; text-align: center; }
         
-        /* HEADER Y HERO */
         .hero { background: linear-gradient(180deg, #1b4d2b 0%, #0a0a0a 100%); padding: 20px; border-bottom: 4px solid var(--primary); }
         .logo-img { width: 120px; margin-bottom: 10px; }
         .hero h1 { color: var(--gold); font-size: 24px; margin: 0; }
@@ -22,30 +21,29 @@
         .premio-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; font-size: 13px; }
         
         .combos-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px; }
-        .combo-card { background: #111; padding: 12px 5px; border-radius: 12px; border: 1px solid #444; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden; }
-        .combo-card:active { transform: scale(0.95); background: #222; }
-        .combo-card.popular { border-color: var(--gold); box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); }
+        .combo-card { background: #111; padding: 12px 5px; border-radius: 12px; border: 1px solid #444; cursor: pointer; transition: 0.3s; }
         .combo-card b { display: block; color: var(--primary); font-size: 16px; margin: 4px 0; }
         .combo-card span { font-size: 10px; color: #fff; display: block; }
-        .combo-card small { font-size: 9px; color: var(--gold); font-weight: bold; text-transform: uppercase; }
-        .tag-popular { position: absolute; top: 0; right: 0; background: var(--gold); color: black; font-size: 7px; padding: 2px 5px; border-radius: 0 0 0 8px; }
 
-        /* MÁQUINA DE LA SUERTE MANUAL */
+        /* CARRITO DE NÚMEROS (NUEVO) */
+        #carrito-lucky { display: none; background: #1a1a1a; margin: 15px; padding: 15px; border-radius: 15px; border: 1px solid var(--primary); animation: fadeIn 0.3s ease; }
+        .lucky-title { font-size: 12px; color: var(--gold); margin-bottom: 10px; text-transform: uppercase; }
+        .lucky-tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+        .tag { background: var(--primary); color: black; padding: 5px 10px; border-radius: 5px; font-size: 14px; display: flex; align-items: center; gap: 5px; font-weight: bold; }
+        .tag span { cursor: pointer; background: rgba(0,0,0,0.2); border-radius: 50%; width: 18px; height: 18px; line-height: 18px; }
+
+        /* MÁQUINA Y GRID */
         .maquina-manual { background: #222; margin: 15px; padding: 15px; border-radius: 15px; border: 1px solid #333; }
-        .maquina-manual h3 { margin: 0 0 10px 0; color: var(--gold); font-size: 15px; }
         .controles { display: flex; gap: 10px; justify-content: center; }
         #input-suerte { width: 60px; background: #000; color: white; border: 1px solid #555; border-radius: 8px; text-align: center; font-size: 16px; }
         .btn-suerte-manual { background: var(--gold); color: black; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
 
-        /* CUADRÍCULA DE NÚMEROS */
         .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; height: 300px; overflow-y: auto; background: #000; padding: 15px; border-radius: 15px; margin: 15px; border: 1px solid #222; }
         .num { padding: 12px 0; background: #2a2a2a; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; }
-        .num.selected { background: var(--primary) !important; color: black !important; box-shadow: 0 0 10px var(--primary); }
+        .num.selected { background: var(--primary) !important; color: black !important; }
         .num.apartado { background: var(--apartado); color: white; cursor: not-allowed; opacity: 0.6; }
         .num.pagado { background: var(--pagado); color: white; cursor: not-allowed; opacity: 0.4; }
         
-        .status-bar { color: var(--primary); font-size: 14px; font-weight: bold; margin: 10px 0; }
-
         /* BOTÓN FLOTANTE */
         .btn-flotante { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--primary); color: black; border: none; padding: 15px 40px; border-radius: 50px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 20px rgba(0,255,0,0.4); z-index: 1000; display: none; }
 
@@ -54,80 +52,59 @@
         input, select { width: 100%; padding: 16px; margin-bottom: 12px; border-radius: 12px; border: 1px solid #444; background: #000; color: white; box-sizing: border-box; font-size: 16px; }
         .btn-enviar { background: var(--primary); color: black; border: none; padding: 20px; width: 100%; border-radius: 15px; font-size: 18px; font-weight: bold; cursor: pointer; }
 
-        /* FOOTER DINÁMICA */
-        .dinamica { background: #111; margin: 15px; padding: 15px; border-radius: 15px; border-left: 4px solid var(--gold); text-align: left; font-size: 12px; line-height: 1.4; }
-        .footer-text { font-size: 11px; color: #777; padding: 20px; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
     <div class="app">
         <div class="hero">
-            <img src="Logo Rifas el tecuan.png" class="logo-img" alt="Logo">
+            <img src="Logo Rifas el tecuan.png" class="logo-img">
             <h1>IPHONE 17 PRO MAX</h1>
             <div class="price-badge">BOLETO $75 MXN</div>
         </div>
 
-        <img src="Para rifas 17 Pro Max.jpeg" class="promo-img" alt="Sorteo">
+        <img src="Para rifas 17 Pro Max.jpeg" class="promo-img">
 
         <div class="premios">
             <div class="premio-item"><span>🥇 <b>MAYOR</b></span><b style="color:var(--primary)">IPHONE 17 PRO MAX</b></div>
-            <div class="premio-item"><span>⚡ <b>PRE-EVENTO</b></span><b style="color:var(--gold)">$5,000 MXN</b></div>
+            <div class="premio-item"><span>⚡ <b>BONO PRE-EVENTO</b></span><b style="color:var(--gold)">$5,000 MXN</b></div>
             <div class="premio-item"><span>🎁 <b>BONO PRONTO PAGO</b></span><b style="color:var(--primary)">$2,000 MXN</b></div>
-            <p style="font-size: 9px; color: #888; margin-top: 8px; text-align: center;">*Bono de $2,000 aplica pagando en las primeras 2 horas.</p>
         </div>
 
         <div class="combos-container">
-            <div class="combo-card" onclick="maquinaSuerte(1)">
-                <span>1 BOLETO</span><b>$75</b><small>🎰 SUERTE</small>
-            </div>
-            <div class="combo-card popular" onclick="maquinaSuerte(3)">
-                <div class="tag-popular">TOP</div>
-                <span>3 BOLETOS</span><b>$200</b><small>🔥 POPULAR</small>
-            </div>
-            <div class="combo-card" onclick="maquinaSuerte(5)">
-                <span>5 BOLETOS</span><b>$300</b><small>🚀 SÚPER</small>
-            </div>
+            <div class="combo-card" onclick="maquinaSuerte(1)"><span>1 BOLETO</span><b>$75</b></div>
+            <div class="combo-card" onclick="maquinaSuerte(3)" style="border-color:var(--gold)"><span>3 BOLETOS</span><b>$200</b></div>
+            <div class="combo-card" onclick="maquinaSuerte(5)"><span>5 BOLETOS</span><b>$300</b></div>
+        </div>
+
+        <div id="carrito-lucky">
+            <div class="lucky-title">✨ TUS NÚMEROS SELECCIONADOS ✨</div>
+            <div id="tags-contenedor" class="lucky-tags"></div>
+            <p style="font-size: 10px; color: #888; margin-top: 10px;">Toca la "X" para quitar un número que no te guste.</p>
         </div>
 
         <div class="maquina-manual">
-            <h3>🎰 ELIGE TU CANTIDAD</h3>
+            <h3>🎰 MÁQUINA DE LA SUERTE</h3>
             <div class="controles">
-                <input type="number" id="input-suerte" min="1" max="50" value="10">
-                <button class="btn-suerte-manual" onclick="maquinaSuerte(null)">¡DAME SUERTE!</button>
+                <input type="number" id="input-suerte" min="1" max="20" value="10">
+                <button class="btn-suerte-manual" onclick="maquinaSuerte(null)">DAME SUERTE</button>
             </div>
         </div>
 
-        <input type="number" id="search" placeholder="🔍 BUSCAR MI NÚMERO..." style="width:90%; margin:10px auto; padding: 12px; border-radius: 10px; background: #000; color: white; border: 1px solid #333;">
+        <input type="number" id="search" placeholder="🔍 BUSCAR NÚMERO..." style="width:90%; margin:10px auto; padding: 12px; border-radius: 10px; background: #000; color: white; border: 1px solid #333;">
 
-        <div id="grid" class="grid">Cargando boletos...</div>
-        <div class="status-bar" id="contador">Boletos seleccionados: 0</div>
+        <div id="grid" class="grid">Cargando...</div>
 
-        <button class="btn-flotante" id="btn-flotante" onclick="irAlFormulario()">APARTAR MI SUERTE 🍀</button>
+        <button class="btn-flotante" id="btn-flotante" onclick="irAlFormulario()">APARTAR ESTOS NÚMEROS 🍀</button>
 
         <div id="seccion-datos">
-            <h2 style="color: var(--gold); font-size: 18px;">📝 DATOS DE APARTADO</h2>
-            <p id="resumen-seleccion" style="font-size: 14px; color: var(--primary); font-weight: bold; margin-bottom: 15px;"></p>
-            
+            <h2 style="color: var(--gold); font-size: 18px;">📝 FINALIZAR APARTADO</h2>
             <input type="text" id="nombre" placeholder="Nombre completo">
             <input type="number" id="whatsapp" placeholder="WhatsApp (10 dígitos)">
-            
-            <input list="estados" id="estado" placeholder="Selecciona tu Estado">
-            <datalist id="estados">
-                <option value="Puebla"><option value="Oaxaca"><option value="CDMX"><option value="Veracruz"><option value="Guerrero">
-            </datalist>
-            
+            <input list="estados" id="estado" placeholder="Estado">
+            <datalist id="estados"><option value="Puebla"><option value="Oaxaca"><option value="CDMX"></datalist>
             <input type="text" id="municipio" placeholder="Municipio">
-            <button id="btn-final" class="btn-enviar" onclick="enviar()">CONFIRMAR APARTADO 🐯</button>
-        </div>
-
-        <div class="dinamica">
-            <h4>🍀 DINÁMICA DEL GANADOR</h4>
-            Basado en las <b>últimas 3 cifras</b> del Premio Mayor de la <b>Lotería Nacional</b> (Sorteo 14 de Abril). ¡Transparencia garantizada!
-        </div>
-
-        <div class="footer-text">
-            📍 Acatlán de Osorio, Puebla.<br>
-            ⏳ Tiempo límite de pago: 6 horas.
+            <button id="btn-final" class="btn-enviar" onclick="enviar()">CONFIRMAR Y ENVIAR 🐯</button>
         </div>
     </div>
 
@@ -150,64 +127,67 @@
                     else { div.className = 'num'; div.onclick = () => togg(n, div); }
                     grid.appendChild(div);
                 }
-            } catch (e) { document.getElementById('grid').innerText = "Error al cargar números."; }
+            } catch (e) { document.getElementById('grid').innerText = "Error."; }
         }
 
         function togg(n, el) {
             if(seleccionados.includes(n)) { 
                 seleccionados = seleccionados.filter(x => x !== n); 
-                el.classList.remove('selected'); 
+                if(el) el.classList.remove('selected'); 
             } else { 
                 seleccionados.push(n); 
-                el.classList.add('selected'); 
+                if(el) el.classList.add('selected'); 
             }
             actualizar();
         }
 
         function maquinaSuerte(cant) {
             const cantidad = cant || parseInt(document.getElementById('input-suerte').value);
-            if(cantidad < 1) return alert("Elige una cantidad válida.");
-
-            const disponibles = Array.from(document.querySelectorAll('.num:not(.apartado):not(.pagado)'));
+            const disponibles = Array.from(document.querySelectorAll('.num:not(.apartado):not(.pagado):not(.selected)'));
             if (disponibles.length < cantidad) return alert("No hay suficientes números.");
-
-            // Sonido
-            const audioCtx = new AudioContext();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.frequency.value = 880; gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.5);
 
             for (let i = 0; i < cantidad; i++) {
                 const idx = Math.floor(Math.random() * disponibles.length);
                 const el = disponibles.splice(idx, 1)[0];
                 const n = el.innerText;
-                if(!seleccionados.includes(n)) {
-                    el.classList.add('selected');
-                    seleccionados.push(n);
-                }
+                el.classList.add('selected');
+                seleccionados.push(n);
             }
-
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#25d366', '#ffd700'] });
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
             actualizar();
-            document.getElementById('grid').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('carrito-lucky').scrollIntoView({ behavior: 'smooth' });
         }
 
         function actualizar() {
-            const cont = document.getElementById('contador');
-            const flotante = document.getElementById('btn-flotante');
-            cont.innerText = `Boletos seleccionados: ${seleccionados.length}`;
-            flotante.style.display = seleccionados.length > 0 ? 'block' : 'none';
+            const carrito = document.getElementById('carrito-lucky');
+            const contenedor = document.getElementById('tags-contenedor');
+            const btnFlotante = document.getElementById('btn-flotante');
+
+            contenedor.innerHTML = '';
+            
+            if(seleccionados.length > 0) {
+                carrito.style.display = 'block';
+                btnFlotante.style.display = 'block';
+                seleccionados.forEach(n => {
+                    const tag = document.createElement('div');
+                    tag.className = 'tag';
+                    tag.innerHTML = `${n} <span onclick="quitarNumero('${n}')">×</span>`;
+                    contenedor.appendChild(tag);
+                });
+            } else {
+                carrito.style.display = 'none';
+                btnFlotante.style.display = 'none';
+            }
+        }
+
+        function quitarNumero(n) {
+            const el = document.getElementById("n-"+n);
+            togg(n, el);
         }
 
         function irAlFormulario() {
-            const sec = document.getElementById('seccion-datos');
-            const res = document.getElementById('resumen-seleccion');
-            document.getElementById('btn-flotante').style.display = 'none';
-            sec.style.display = 'block';
-            res.innerText = `🐯 Llevas ${seleccionados.length} números: (${seleccionados.join(', ')})`;
-            sec.scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('seccion-datos').style.display = 'block';
+            document.getElementById('seccion-datos').scrollIntoView({ behavior: 'smooth' });
         }
 
         async function enviar() {
@@ -216,7 +196,7 @@
             const est = document.getElementById('estado').value;
             const mun = document.getElementById('municipio').value;
 
-            if(!n || !w || !est || !mun) return alert("Llena todos tus datos.");
+            if(!n || !w || !est || !mun) return alert("Llena tus datos.");
             
             const btn = document.getElementById('btn-final');
             btn.innerText = "REGISTRANDO..."; btn.disabled = true;
@@ -225,11 +205,7 @@
             
             setTimeout(() => {
                 const total = seleccionados.length * 75; 
-                const msj = `📱 *RIFAS EL TECUAN* 🐯\n\n` +
-                            `👤 *NOMBRE:* ${n}\n` +
-                            `🔢 *BOLETOS:* ${seleccionados.join(', ')}\n` +
-                            `📍 *MUNICIPIO:* ${mun}, ${est}\n\n` +
-                            `Tengo 6 HORAS para pagar. (2h para bono). 🍀`;
+                const msj = `📱 *RIFAS EL TECUAN* 🐯\n\n👤 *NOMBRE:* ${n}\n🔢 *BOLETOS:* ${seleccionados.join(', ')}\n💰 *TOTAL:* $${total} MXN\n⏳ Tienes 6 horas para pagar. 🍀`;
                 window.top.location.href = `https://api.whatsapp.com/send?phone=529531024519&text=${encodeURIComponent(msj)}`;
             }, 1000);
         }
