@@ -64,23 +64,21 @@
             <div class="premio-item"><span>🎁 <b>BONO PRONTO PAGO</b></span><b style="color:var(--primary)">$2,000 MXN</b></div>
         </div>
 
-        <div class="combos-container">
+<div class="combos-container">
             <div class="combo-card" onclick="maquinaSuerte(1)"><span>1 BOLETO</span><b>$75</b></div>
             <div class="combo-card" onclick="maquinaSuerte(3)" style="border-color:var(--gold)"><span>3 BOLETOS</span><b>$200</b></div>
             <div class="combo-card" onclick="maquinaSuerte(5)"><span>5 BOLETOS</span><b>$300</b></div>
         </div>
 
+        <div onclick="maquinaSuerte(6)" style="background: rgba(37, 211, 102, 0.1); border: 2px dashed var(--primary); margin: 0 15px 15px 15px; padding: 10px; border-radius: 15px; cursor: pointer; animation: pulse 2s infinite;">
+            <span style="font-size: 11px; color: var(--primary); font-weight: bold;">🔥 ¡SÚPER PROMO MAYOREO! 🔥</span>
+            <div style="font-size: 15px; color: white;">A partir de <b>6 boletos</b> cada uno a solo <b style="color:var(--primary); font-size: 18px;">$60</b></div>
+            <small style="font-size: 10px; color: #aaa;">(Toca aquí para que la máquina elija 6 por ti)</small>
+        </div>
+
         <div id="carrito-lucky">
             <div style="font-size: 12px; color: var(--gold);">✨ NÚMEROS ELEGIDOS ✨</div>
             <div id="tags-contenedor" class="lucky-tags"></div>
-        </div>
-
-        <div class="maquina-manual">
-            <h3>🎰 MÁQUINA DE LA SUERTE</h3>
-            <div class="controles">
-                <input type="number" id="input-suerte" min="1" max="20" value="10">
-                <button class="btn-suerte-manual" onclick="maquinaSuerte(null)">DAME SUERTE</button>
-            </div>
         </div>
 
         <input type="number" id="search" placeholder="🔍 BUSCAR NÚMERO..." style="width:90%; margin:10px auto; padding: 12px; border-radius: 10px; background: #000; color: white; border: 1px solid #333;">
